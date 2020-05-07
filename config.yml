@@ -21,8 +21,11 @@
   # - mssql = MS SQL Server 2012 or later
   # - sqlite = SQLite 3.9 or later
 
-  # TODO: https://github.com/Requarks/wiki/blob/master/server/core/db.js#L32
-  db: $(DATABASE_URL)
+  # $DATABASE_URL env var is used for DSN
+  # https://github.com/Requarks/wiki/blob/master/server/core/db.js#L32
+  db:
+    type: postgres
+    ssl: false
 
   #######################################################################
   # ADVANCED OPTIONS                                                    #
