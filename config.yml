@@ -9,6 +9,7 @@
 # ---------------------------------------------------------------------
 
   # FIXME: http://dokku.viewdocs.io/dokku/networking/port-management/#applications-using-expose
+  #
   # root@studio-01:~# dokku proxy:ports-add doc http:80:3000
   # -----> Setting config vars
   # DOKKU_PROXY_PORT_MAP:  http:3000:3000 http:3443:3443 http:80:3000
@@ -21,6 +22,14 @@
   # -----> Configuring doc.app.etalab.studio...(using built-in template)
   # -----> Creating http nginx.conf
   # Reloading nginx
+  # root@studio-01:~# dokku proxy:ports-remove doc http:3443:3443
+  # -----> Setting config vars
+  #        DOKKU_PROXY_PORT_MAP:  http:80:3000 https:443:3000
+  # -----> Configuring doc.app.etalab.studio...(using built-in template)
+  # -----> Creating https nginx.conf
+  #        Enabling HSTS
+  #        Reloading nginx
+  #
   port: $(PORT)
 
   # ---------------------------------------------------------------------
