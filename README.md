@@ -1,4 +1,4 @@
-# labs-wiki
+# wikijs-dokku
 
 This repo is a dokku-deployable wrapper for wiki.js.
 
