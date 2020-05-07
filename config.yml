@@ -8,6 +8,7 @@
 # Port the server should listen to
 # ---------------------------------------------------------------------
 
+  # FIXME: http://dokku.viewdocs.io/dokku/networking/port-management/#applications-using-expose
   port: $(PORT)
 
   # ---------------------------------------------------------------------
@@ -20,6 +21,7 @@
   # - mssql = MS SQL Server 2012 or later
   # - sqlite = SQLite 3.9 or later
 
+  # TODO: https://github.com/Requarks/wiki/blob/master/server/core/db.js#L32
   db: $(DATABASE_URL)
 
   #######################################################################

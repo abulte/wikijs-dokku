@@ -1,7 +1,7 @@
 FROM requarks/wiki:2
 
-WORKDIR /var/wiki
+WORKDIR /wiki
 
-COPY config.yml /var/wiki/config.yml
+COPY config.yml /wiki/config.yml
 
 CMD [ "node", "server" ]
