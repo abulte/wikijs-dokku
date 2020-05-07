@@ -1,153 +1,117 @@
 #######################################################################
 # Wiki.js - CONFIGURATION                                             #
 #######################################################################
-# Full explanation + examples in the documentation:
-# https://docs.requarks.io/wiki/install
+# Full documentation + examples:
+# https://docs.requarks.io/install
 
 # ---------------------------------------------------------------------
-# Title of this site
+# Port the server should listen to
 # ---------------------------------------------------------------------
 
-title: NYC Planning Labs Wiki
+  port: $(PORT)
 
-# ---------------------------------------------------------------------
-# Full public path to the site, without the trailing slash
-# ---------------------------------------------------------------------
+  # ---------------------------------------------------------------------
+  # Database
+  # ---------------------------------------------------------------------
+  # Supported Database Engines:
+  # - postgres = PostgreSQL 9.5 or later
+  # - mysql = MySQL 8.0 or later (5.7.8 partially supported, refer to docs)
+  # - mariadb = MariaDB 10.2.7 or later
+  # - mssql = MS SQL Server 2012 or later
+  # - sqlite = SQLite 3.9 or later
 
-host: https://wiki.planninglabs.nyc
+  db: $(DATABASE_URL)
 
-# ---------------------------------------------------------------------
-# Port the main server should listen to (80 by default)
-# ---------------------------------------------------------------------
+  #######################################################################
+  # ADVANCED OPTIONS                                                    #
+  #######################################################################
+  # Do not change unless you know what you are doing!
 
-port: 3000
+  # ---------------------------------------------------------------------
+  # SSL/TLS Settings
+  # ---------------------------------------------------------------------
+  # Consider using a reverse proxy (e.g. nginx) if you require more
+  # advanced options than those provided below.
 
-# ---------------------------------------------------------------------
-# Data Directories
-# ---------------------------------------------------------------------
+  # ssl:
+  #   enabled: false
+  #   port: 3443
 
-paths:
-  repo: ./repo
-  data: ./data
+  #   # Provider to use, possible values: custom, letsencrypt
+  #   provider: custom
 
-# ---------------------------------------------------------------------
-# Upload Limits
-# ---------------------------------------------------------------------
-# In megabytes (MB)
+  #   # ++++++ For custom only ++++++
+  #   # Certificate format, either 'pem' or 'pfx':
+  #   format: pem
+  #   # Using PEM format:
+  #   key: path/to/key.pem
+  #   cert: path/to/cert.pem
+  #   # Using PFX format:
+  #   pfx: path/to/cert.pfx
+  #   # Passphrase when using encrypted PEM / PFX keys (default: null):
+  #   passphrase: null
+  #   # Diffie Hellman parameters, with key length being greater or equal
+  #   # to 1024 bits (default: null):
+  #   dhparam: null
 
-uploads:
-  maxImageFileSize: 3
-  maxOtherFileSize: 100
+  #   # ++++++ For letsencrypt only ++++++
+  #   domain: wiki.yourdomain.com
+  #   subscriberEmail: admin@example.com
 
-# ---------------------------------------------------------------------
-# Site Language
-# ---------------------------------------------------------------------
-# Possible values: en, es, fr, ko, ru or zh
+  # ---------------------------------------------------------------------
+  # Database Pool Options
+  # ---------------------------------------------------------------------
+  # Refer to https://github.com/vincit/tarn.js for all possible options
 
-lang: en
+  pool:
+    # min: 2
+    # max: 10
 
-# ---------------------------------------------------------------------
-# Site Authentication
-# ---------------------------------------------------------------------
+  # ---------------------------------------------------------------------
+  # IP address the server should listen to
+  # ---------------------------------------------------------------------
+  # Leave 0.0.0.0 for all interfaces
 
-public: true
+  bindIP: 0.0.0.0
 
-auth:
-  defaultReadAccess: false
-  local:
-    enabled: true
-  google:
-    enabled: false
-    clientId: GOOGLE_CLIENT_ID
-    clientSecret: GOOGLE_CLIENT_SECRET
-  microsoft:
-    enabled: false
-    clientId: MS_APP_ID
-    clientSecret: MS_APP_SECRET
-  facebook:
-    enabled: false
-    clientId: FACEBOOK_APP_ID
-    clientSecret: FACEBOOK_APP_SECRET
-  github:
-    enabled: true
-    clientId: $(GITHUB_CLIENT_ID)
-    clientSecret: $(GITHUB_CLIENT_SECRET)
-  slack:
-    enabled: false
-    clientId: SLACK_CLIENT_ID
-    clientSecret: SLACK_CLIENT_SECRET
-  ldap:
-    enabled: false
-    url: ldap://serverhost:389
-    bindDn: cn='root'
-    bindCredentials: BIND_PASSWORD
-    searchBase: o=users,o=example.com
-    searchFilter: (uid={{username}})
-    tlsEnabled: false
-    tlsCertPath: C:\example\root_ca_cert.crt
-  azure:
-    enabled: false
-    clientID: APP_ID
-    clientSecret: APP_SECRET_KEY
-    resource: '00000002-0000-0000-c000-000000000000'
-    tenant: 'YOUR_TENANT.onmicrosoft.com'
+  # ---------------------------------------------------------------------
+  # Log Level
+  # ---------------------------------------------------------------------
+  # Possible values: error, warn, info (default), verbose, debug, silly
 
-# ---------------------------------------------------------------------
-# Secret key to use when encrypting sessions
-# ---------------------------------------------------------------------
-# Use a long and unique random string (256-bit keys are perfect!)
+  logLevel: info
 
-sessionSecret: $(WIKI_SESSION_KEY)
+  # ---------------------------------------------------------------------
+  # Upload Limits
+  # ---------------------------------------------------------------------
+  # If you're using a reverse-proxy in front of Wiki.js, you must also
+  # change your proxy upload limits!
 
-# ---------------------------------------------------------------------
-# Database Connection String
-# ---------------------------------------------------------------------
+  uploads:
+    # Maximum upload size in bytes per file (default: 5242880 (5 MB))
+    maxFileSize: 5242880
+    # Maximum file uploads per request (default: 10)
+    maxFiles: 10
 
-db: $(MONGODB_URI)
+  # ---------------------------------------------------------------------
+  # Offline Mode
+  # ---------------------------------------------------------------------
+  # If your server cannot access the internet. Set to true and manually
+  # download the offline files for sideloading.
 
-# ---------------------------------------------------------------------
-# Git Connection Info
-# ---------------------------------------------------------------------
+  offline: false
 
-git:
-  url: https://github.com/NYCPlanning/labs-wiki
-  branch: master
-  auth:
+  # ---------------------------------------------------------------------
+  # High-Availability
+  # ---------------------------------------------------------------------
+  # Set to true if you have multiple concurrent instances running off the
+  # same DB (e.g. Kubernetes pods / load balanced instances). Leave false
+  # otherwise. You MUST be using PostgreSQL to use this feature.
 
-    # Type: basic or ssh
-    type: basic
+  ha: false
 
-    # Only for Basic authentication:
-    username: $(WIKI_GIT_USERNAME)
-    password: $(WIKI_GIT_PASSWORD)
-
-    # Only for SSH authentication:
-    privateKey: /etc/wiki/keys/git.pem
-
-    sslVerify: true
-
-  # Default email to use as commit author
-  serverEmail: cwhong@planning.nyc.gov
-
-  # Whether to use user email as author in commits
-  showUserEmail: false
-
-# ---------------------------------------------------------------------
-# Features
-# ---------------------------------------------------------------------
-# You can enable / disable specific features below
-
-features:
-  linebreaks: true
-  mathjax: true
-
-# ---------------------------------------------------------------------
-# External Logging
-# ---------------------------------------------------------------------
-
-externalLogging:
-  bugsnag: false
-  loggly: false
-  papertrail: false
-  rollbar: false
-  sentry: false
+  # ---------------------------------------------------------------------
+  # Data Path
+  # ---------------------------------------------------------------------
+  # Writeable data path used for cache and temporary user uploads.
+  dataPath: ./data
